@@ -32,6 +32,13 @@ class Applicant(BaseModel):
     school = ForeignKeyField(School, null=True)
 
     @classmethod
+    def find_status(cls, number):
+        applicant = cls.select().where(cls.application_number == number)[0]
+        applicant_status = applicant.status
+        applicant_school = applicant.school.name
+        return [applicant_school, applicant_status]
+
+    @classmethod
     def find_school(cls, instances):
         for instance in instances:
             the_city = City.select().where(City.name == instance.city)[0]  # sooo not pretty
