@@ -1,7 +1,5 @@
-# This script can create the database tables based on your models
-
 from models import *
 
 db.connect()
-# List the tables here what you want to create...
-db.create_tables([], safe=True)
+# db.drop_tables([], safe=True)  # for testing
+db.create_tables([School, City, Applicant, Mentor, InterviewSlot], safe=True)
