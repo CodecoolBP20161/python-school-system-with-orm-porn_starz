@@ -1,5 +1,5 @@
 from models import *
-from datetime import date
+from datetime import date, time
 
 
 bp1 = School.create(
@@ -29,13 +29,13 @@ City.create(
     closest_school=bp1
 )
 
-Applicant.create(
+nintendo = Applicant.create(
     name='Lakatos Nintendo',
     city='Karancspuszta',
     email='sukargyerek@gmail.com'
 )
 
-Applicant.create(
+shakira = Applicant.create(
     name='Kolompar Shakira',
     city='Horcsoghalom',
     email='sukarlejany@gmail.com',
@@ -105,4 +105,19 @@ InterviewSlot.create(
 InterviewSlot.create(
     mentor=bela,
     time=date(2016, 10, 12)
+)
+
+QuestionAnswer.create(
+    applicant=nintendo,
+    question='Hello, what is your name?'
+)
+
+QuestionAnswer.create(
+    applicant=nintendo,
+    question='Hello, what is my name?'
+)
+
+QuestionAnswer.create(
+    applicant=shakira,
+    question='Hello?'
 )

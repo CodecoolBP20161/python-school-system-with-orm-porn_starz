@@ -13,16 +13,24 @@ class ApplicationInterface():
 
     def print_menu(self):
         print('''Welcome to the applicaton system of CodeCool!
-        Please choose an option!
-        (1) Application details''')
+Please choose an option!
+(1) Application details
+(2) Interview Details
+(3) My questions'''
+)
 
     def option(self):
         option = input("")
         return option
 
     def print_result(self, query_result):
-        print(query_result[0] + " ---> " + query_result[1])
+        for data in query_result:
+            print(data)
 
     def run_option(self, option):
         if option == '1':
             self.print_result(Applicant.find_status(self.application_number))
+        if option == '2':
+            self.print_result(Applicant.find_interview(self.application_number))
+        if option == '3':
+            self.print_result(Applicant.find_questions(self.application_number))

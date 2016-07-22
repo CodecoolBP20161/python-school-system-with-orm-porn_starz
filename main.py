@@ -10,6 +10,7 @@ Applicant.find_school(Applicant.find_missing_city())
 # appoints an interview for all the new applicants, changing their status, and filling an interview slot
 Applicant.appoint_interview(Applicant.find_missing_interview())
 
+# user interface
 number = ApplicationInterface.choose_applicant()
 user = ApplicationInterface(number)
 user.print_menu()
