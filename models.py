@@ -2,8 +2,9 @@ from peewee import *
 import string
 import random
 import datetime
+import csv
 
-db = PostgresqlDatabase('TothBalint', user='balint')
+db = PostgresqlDatabase('patrik', user='patrik')
 
 
 class BaseModel(Model):
@@ -31,6 +32,19 @@ class Applicant(BaseModel):
     status = CharField(default='New')
     email = CharField()  # given
     school = ForeignKeyField(School, null=True)
+
+    @classmethod
+    def csv_import(cls, filename):
+        with open(filename, newline='') as csvfile:
+            print(csv)
+            print(csv.DictReader)
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                cls.create(
+                    name=row['name'],
+                    city=row['city'],
+                    email=row['email']
+                )
 
     @classmethod
     def find_status(cls, number):
@@ -113,7 +127,6 @@ class Mentor(BaseModel):
     name = CharField()
     mentor_id = PrimaryKeyField()
     school = ForeignKeyField(School)
-
 
 class InterviewSlot(BaseModel):
 
