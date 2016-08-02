@@ -32,19 +32,19 @@ City.create(
 nintendo = Applicant.create(
     name='Lakatos Nintendo',
     city='Karancspuszta',
-    email='sukargyerek@gmail.com'
+    email='codecoolrobot+LakNin@gmail.com'
 )
 
 shakira = Applicant.create(
     name='Kolompar Shakira',
     city='Horcsoghalom',
-    email='sukarlejany@gmail.com',
+    email='codecoolrobot+KolSha@gmail.com',
     )
 
 Applicant.create(
     name='Orban Gaspar',
     city='Budapest',
-    email='nemkozszereplo@gmail.com',
+    email='codecoolrobot+OrbGas@gmail.com',
     )
 
 padlab = Mentor.create(
