@@ -36,7 +36,7 @@ Please choose an option!
             self.print_result(Applicant.find_questions(self.application_number))
 
     @classmethod
-    def send_email(cls, object, message):
+    def send_email(cls, person, message):
         import smtplib
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -44,4 +44,4 @@ Please choose an option!
         server.starttls()
         server.ehlo()
         server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
-        server.sendmail("codecoolrobot@gmail.com", object.email, message)
+        server.sendmail("codecoolrobot@gmail.com", person.email, message)
