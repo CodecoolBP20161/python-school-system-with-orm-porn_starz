@@ -2,7 +2,7 @@ from models import *
 from prettytable import PrettyTable
 
 
-class ApplicantInterface():
+class ApplicationInterface():
 
     @staticmethod
     def choose_applicant():
@@ -27,9 +27,8 @@ Please choose an option!
         return option
 
     def print_result(self, query_result):
-        table = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
         for data in query_result:
-            table.row
+            print(data)
 
     def run_option(self, option):
         if option == '1':
