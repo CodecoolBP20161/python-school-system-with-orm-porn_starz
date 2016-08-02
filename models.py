@@ -65,6 +65,14 @@ class Applicant(BaseModel):
             instance.save()
 
     @classmethod
+    def filter(cls, filt, data):
+        all_data = []
+        applicants = cls.select().where(filt == data)
+        for app in applicants:
+            all_data.append([app.name, app.status, app.application_number, app.city, app.email, app.school.name])
+        return all_data
+
+    @classmethod
     def appoint_interview(cls, instances):
         for instance in instances:
             mentor_to_meet = random.choice(Mentor.select().where(instance.school.name == Mentor.school))
@@ -106,6 +114,19 @@ class Applicant(BaseModel):
             q_infos = [q.question, q.status, q.answer]
             questions.append(q_infos)
         return questions
+
+    @classmethod
+    def find_mentors(cls, number):
+        mentors = Mentor.select().join(City, on=City.closest_school == Mentor.school).join(cls, on=City.name == Applicant.city).where(cls.application_number == number)
+        return [mentor.name for mentor in mentors]
+
+    def get_mentors(self):
+        mentors = Mentor.select().join(
+            City, on=City.closest_school == Mentor.school
+        ).join(
+            self.__class__, on=City.name == self.__class__.city
+        ).where(self.__class__.application_number == self.application_number)
+        return [mentor.name for mentor in mentors]
 
 
 class Mentor(BaseModel):
