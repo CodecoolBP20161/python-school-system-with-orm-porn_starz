@@ -1,6 +1,8 @@
 from models import *
+from prettytable import PrettyTable
 
-class ApplicationInterface():
+
+class ApplicantInterface():
 
     @staticmethod
     def choose_applicant():
@@ -12,20 +14,22 @@ class ApplicationInterface():
         self.application_number = number
 
     def print_menu(self):
-        print('''Welcome to the applicaton system of CodeCool!
+        print('''
+Welcome to the applicaton system of CodeCool!
 Please choose an option!
 (1) Application details
 (2) Interview Details
-(3) My questions'''
-)
+(3) My questions
+''')
 
     def option(self):
         option = input("")
         return option
 
     def print_result(self, query_result):
+        table = PrettyTable(["City name", "Area", "Population", "Annual Rainfall"])
         for data in query_result:
-            print(data)
+            table.row
 
     def run_option(self, option):
         if option == '1':

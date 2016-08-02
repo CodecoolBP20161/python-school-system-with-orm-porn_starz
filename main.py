@@ -1,5 +1,5 @@
 from models import *
-from application_interface import ApplicationInterface
+from application_interface import ApplicantInterface
 
 # adds uniqe applicaton codes to those who doesnt have
 Applicant.generate_uniqe(Applicant.find_missing_pk())
@@ -11,7 +11,7 @@ Applicant.find_school(Applicant.find_missing_city())
 Applicant.appoint_interview(Applicant.find_missing_interview())
 
 # user interface
-number = ApplicationInterface.choose_applicant()
-user = ApplicationInterface(number)
+number = ApplicantInterface.choose_applicant()
+user = ApplicantInterface(number)
 user.print_menu()
 user.run_option(user.option())
