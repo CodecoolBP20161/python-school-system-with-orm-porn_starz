@@ -8,7 +8,7 @@ class AdminInterface():
 Please choose an option!
 (1) Maintenance
 (2) Check applicants
-(3) rizzsel'''
+(3) Questions'''
 )
     @staticmethod
     def choose_an_option():
@@ -29,8 +29,8 @@ Please choose an option!
             Applicant.appoint_interview(Applicant.find_missing_interview())
 
         if number == '2':
-            akarmi = True
-            while akarmi:
+            run = True
+            while run:
                 print('''Choose a filter:
      (1) name
      (2) Status
@@ -42,19 +42,26 @@ Please choose an option!
 
                 x = input('Choose an option: ')
                 if x == 'x':
-                    akarmi = False
+                    run = False
                 else:
                     y = input('Choose a filter: ')
 
                 if x == '1':
-                    Applicant.filter(Applicant.name, y)
+                    all_data = Applicant.filter(Applicant.name, y)
                 if x == '2':
-                    Applicant.filter(Applicant.status, y)
+                    all_data = Applicant.filter(Applicant.status, y)
                 if x == '3':
-                    Applicant.filter(Applicant.application_number, y)
+                    all_data = Applicant.filter(Applicant.application_number, y)
                 if x == '4':
-                    Applicant.filter(Applicant.city, y)
+                    all_data = Applicant.filter(Applicant.city, y)
                 if x == '5':
-                    Applicant.filter(Applicant.email, y)
+                    all_data = Applicant.filter(Applicant.email, y)
                 if x == '6':
-                    Applicant.filter(Applicant.school, y)
+                    all_data = Applicant.filter(Applicant.school, y)
+
+                filtered_table = PrettyTable(["Name", "Status", "App. number", "City", "Email", "School"])
+                filtered_table.align["Name"] = "l"  # Left align city names
+                filtered_table.padding_width = 1    # One space between column edges and contents (default)
+                for student in all_data:
+                    filtered_table.add_row(student)
+                print(filtered_table)

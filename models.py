@@ -2,8 +2,9 @@ from peewee import *
 import string
 import random
 import datetime
+from prettytable import PrettyTable
 
-db = PostgresqlDatabase('TothBalint', user='balint')
+db = PostgresqlDatabase('patrik', user='patrik')
 
 
 class BaseModel(Model):
@@ -32,6 +33,14 @@ class Applicant(BaseModel):
     email = CharField()  # given
     school = ForeignKeyField(School, null=True)
 
+    @classmethod
+    def filter(cls, filt=None, data=None):
+        all_data = []
+        applicants = cls.select().where(filt == data)
+        for app in applicants:
+            all_data.append([app.name, app.status, app.application_number, app.city, app.email, app.school.name])
+        return all_data
+        
     @classmethod
     def find_status(cls, number):
         applicant = cls.select().where(cls.application_number == number)[0]
