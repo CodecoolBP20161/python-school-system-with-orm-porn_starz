@@ -2,8 +2,9 @@ from peewee import *
 import string
 import random
 import datetime
+import messages
 
-db = PostgresqlDatabase('TothBalint', user='balint')
+db = PostgresqlDatabase('csibi', user='csibi')
 
 
 class BaseModel(Model):
@@ -32,6 +33,16 @@ class Applicant(BaseModel):
     email = CharField()  # given
     school = ForeignKeyField(School, null=True)
 
+    def send_email(self, message):
+        import smtplib
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
+        server.sendmail("codecoolrobot@gmail.com", self.email, message)
+
     @classmethod
     def find_status(cls, number):
         applicant = cls.select().where(cls.application_number == number)[0]
@@ -46,6 +57,9 @@ class Applicant(BaseModel):
             the_school = School.select().where(the_city.closest_school.name == School.name)[0]
             instance.school = the_school.name
             instance.save()
+            message = messages.greetings % (instance.name, instance.application_number, instance.school.city)
+            instance.send_email(message)
+
 
     @classmethod
     def generate_uniqe(cls, instances):
@@ -106,6 +120,7 @@ class Applicant(BaseModel):
             q_infos = [q.question, q.status, q.answer]
             questions.append(q_infos)
         return questions
+
 
 
 class Mentor(BaseModel):
