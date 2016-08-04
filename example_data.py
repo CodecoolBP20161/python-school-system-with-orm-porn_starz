@@ -29,95 +29,95 @@ City.create(
     closest_school=bp1
 )
 
-nintendo = Applicant.create(
-    name='Lakatos Nintendo',
-    city='Karancspuszta',
-    email='codecoolrobot+LakNin@gmail.com'
+City.create(
+    name='Vac',
+    closest_school=bp2
+
+)
+City.create(
+    name='Szazhalombatta',
+    closest_school=bp2
+
 )
 
-shakira = Applicant.create(
-    name='Kolompar Shakira',
-    city='Horcsoghalom',
-    email='codecoolrobot+KolSha@gmail.com',
+surnames = ['Smith', 'Anderson', 'Clark', 'Wright', 'Mitchell', 'Johnson', 'Thomas', 'Rodriguez', 'Lopez', 'Perez',
+            'Williams', 'Jackson', 'Lewis', 'Hill', 'Roberts', 'Jones', 'White', 'Lee', 'Scott', 'Turner', 'Brown',
+            'Harris', 'Walker', 'Green', 'Phillips', 'Davis', 'Martin', 'Hall', 'Adams', 'Campbell', 'Miller',
+            'Thompson',  'Allen', 'Baker', 'Parker', 'Wilson', 'Garcia', 'Young', 'Gonzalez', 'Evans', 'Moore',
+            'Martinez', 'Hernandez', 'Nelson','Edwards', 'Taylor', 'Robinson', 'King', 'Carter', 'Collins']
+
+first_names = ['James', 'Christopher', 'Ronald', 'Mary', 'Lisa', 'Michelle', 'John', 'Daniel', 'Anthony'
+               'Patricia', 'Nancy', 'Laura',
+               'Robert', 'Paul', 'Kevin', 'Linda', 'Karen', 'Sara', 'Michael',
+               'Mark', 'Jason', 'Barbara', 'Betty', 'Kimberly', 'William', 'Donald', 'Jeff', 'Elizabeth'
+               'Helen', 'Debora', 'David',
+               'George', 'Jennifer', 'Sandra', 'Richard', 'Kenneth', 'Maria',
+               'Donn', 'Charles', 'Steven', 'Susan', 'Caro', 'Josephine', 'Edward',
+               'Margaret', 'Ruth', 'Thomas', 'Brian', 'Dorothy', 'Sharon']
+
+cities = ["Karancspuszta", "Horcsoghalom", "Budapest", ]
+schools = [bp1, bp2, miskolc1]
+words = ['pseudoartistically', 'irresolvable', 'unexplicated', 'unsensitising', 'unshriven', 'reminisce', 'byzas',
+         'pavillon', 'nielloed', 'photophobia', 'tautology', 'flout', 'bourbon', 'seton', 'diminished', 'passivism',
+         'nerol', 'goosewing', 'vaunted','tellingly', 'sidrah', 'philipsburg', 'preshared', 'collier', 'excusable',
+         'rosario', 'unpouched', 'roupily']
+# Creating lots of random mentors to work with
+mentors = []
+for x in range(21):
+    if x <= 7:
+        school = bp1
+    elif x <= 14:
+        school = bp2
+    else:
+        school = miskolc1
+    surname = random.choice(surnames)
+    first_name = random.choice(first_names)
+    new_mentor = Mentor.create(
+        name=surname + " " + first_name,
+        school=school,
+        email="codecoolrobot+" + "%s" + "@gmail.com" % (str(surname[:3] + first_name[:3]))
     )
+    mentors.append(new_mentor)
+# Creating a lots of random applicants to work with
+applicants = []
+for y in range(2000):
+    city = random.choice(cities)
+    surname = random.choice(surnames)
+    first_name = random.choice(first_names)
+    applicant = Applicant.create(
+        name=surname + " " + first_name,
+        city=city,
+        email="codecoolrobot+" + "%s" + "@gmail.com" % (str(surname[:3] + first_name[:3]))
+        )
+    applicants.append(applicant)
 
-Applicant.create(
-    name='Orban Gaspar',
-    city='Budapest',
-    email='codecoolrobot+OrbGas@gmail.com',
+hour = 9
+day = 10
+interview_slots = []
+# Creating interview time slots
+while hour != 14 and day != 14:
+    new_slot = InterviewSlot.create(
+        date=date(2016, 10, day),
+        time=time(hour, 0)
     )
+    interview_slots.append(new_slot)
+    hour += 1
+    if hour == 14:
+        day += 1
+        hour = 9
+# assigning the mentors to each date
+for mentor in mentors:
+    for slot in interview_slots:
+        SlotMentor.create(
+            mentor=mentor,
+            slot=slot
+        )
 
-padlab = Mentor.create(
-    name='Padlab Ormester',
-    school=bp1
-)
-
-joska = Mentor.create(
-    name='Joska bacsi',
-    school=bp2
-)
-
-bela = Mentor.create(
-    name='A Bela',
-    school=miskolc1
-)
-
-InterviewSlot.create(
-    mentor=padlab,
-    time=date(2016, 10, 10)
-)
-
-InterviewSlot.create(
-    mentor=padlab,
-    time=date(2016, 10, 11)
-)
-
-InterviewSlot.create(
-    mentor=padlab,
-    time=date(2016, 10, 12)
-)
-
-InterviewSlot.create(
-    mentor=joska,
-    time=date(2016, 10, 10)
-)
-
-InterviewSlot.create(
-    mentor=joska,
-    time=date(2016, 10, 11)
-)
-
-InterviewSlot.create(
-    mentor=joska,
-    time=date(2016, 10, 12)
-)
-
-InterviewSlot.create(
-    mentor=bela,
-    time=date(2016, 10, 10)
-)
-
-InterviewSlot.create(
-    mentor=bela,
-    time=date(2016, 10, 11)
-)
-
-InterviewSlot.create(
-    mentor=bela,
-    time=date(2016, 10, 12)
-)
-
+# Creating random questions to work with
+for z in range(1000):
+question = [random.choice(words) for k in random.randrange(3, 7)]
 QuestionAnswer.create(
-    applicant=nintendo,
-    question='Hello, what is your name?'
-)
-
-QuestionAnswer.create(
-    applicant=nintendo,
-    question='Hello, what is my name?'
-)
-
-QuestionAnswer.create(
-    applicant=shakira,
-    question='Hello?'
+    applicant=random.choice(applicants),
+    question=question,
+    date= date(2016, random.randrange(7, 8), random.randrange(1, 29))
 )
