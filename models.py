@@ -6,7 +6,7 @@ import messages
 
 from prettytable import PrettyTable
 
-db = PostgresqlDatabase('patrik', user='patrik')
+db = PostgresqlDatabase('TothBalint', user='balint')
 
 
 class BaseModel(Model):
@@ -193,7 +193,7 @@ class SlotMentor(BaseModel):
     SM_id = PrimaryKeyField()
     mentor = ForeignKeyField(Mentor)
     slot = ForeignKeyField(InterviewSlot)
-    applicant = ForeignKeyField(Applicant)
+    applicant = ForeignKeyField(Applicant, null=True)
 
 
 class Interview(BaseModel):

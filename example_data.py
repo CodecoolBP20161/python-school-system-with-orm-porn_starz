@@ -75,10 +75,11 @@ for x in range(21):
         school = miskolc1
     surname = random.choice(surnames)
     first_name = random.choice(first_names)
+    email = str(surname[:3] + first_name[:3])
     new_mentor = Mentor.create(
         name=surname + " " + first_name,
         school=school,
-        email="codecoolrobot+" + "%s" + "@gmail.com" % (str(surname[:3] + first_name[:3]))
+        email="codecoolrobot+%s@gmail.com" % email
     )
     mentors.append(new_mentor)
 
@@ -88,10 +89,11 @@ for y in range(2000):
     city = random.choice(cities)
     surname = random.choice(surnames)
     first_name = random.choice(first_names)
+    email = str(surname[:3] + first_name[:3])
     applicant = Applicant.create(
         name=surname + " " + first_name,
         city=city,
-        email="codecoolrobot+" + "%s" + "@gmail.com" % (str(surname[:3] + first_name[:3]))
+        email="codecoolrobot+%s@gmail.com" % email
         )
     applicants.append(applicant)
 
@@ -119,9 +121,11 @@ for mentor in mentors:
 
 # Creating random questions to work with
 for z in range(1000):
-question = [random.choice(words) for k in random.randrange(3, 7)]
-QuestionAnswer.create(
-    applicant=random.choice(applicants),
-    question=question,
-    date= date(2016, random.randrange(7, 8), random.randrange(1, 29))
-)
+    question = [random.choice(words) for k in range(random.randint(3, 7))]
+    question = " ".join(question) + '?'
+    question = question[0].capitalize() + question[1:]
+    QuestionAnswer.create(
+        applicant=random.choice(applicants),
+        question=question,
+        date= date(2016, random.randint(7, 8), random.randint(1, 29))
+    )
