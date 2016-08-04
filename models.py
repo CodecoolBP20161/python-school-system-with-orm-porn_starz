@@ -40,7 +40,7 @@ class Applicant(BaseModel):
         for app in applicants:
             all_data.append([app.name, app.status, app.application_number, app.city, app.email, app.school.name])
         return all_data
-        
+
     @classmethod
     def find_status(cls, number):
         applicant = cls.select().where(cls.application_number == number)[0]
@@ -139,3 +139,11 @@ class QuestionAnswer(BaseModel):
     answer = CharField(default=None, null=True)
     status = CharField(default='New')
     mentor = ForeignKeyField(Mentor, null=True)
+
+    @classmethod
+    def filter_question(cls, filt=None, data=None):
+        all_data = []
+        questions = cls.select().where(filt == data)
+        for question in questions:
+            all_data.append([question.question, question.answer, question.status])
+        return all_data
