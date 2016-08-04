@@ -56,11 +56,14 @@ first_names = ['James', 'Christopher', 'Ronald', 'Mary', 'Lisa', 'Michelle', 'Jo
                'Margaret', 'Ruth', 'Thomas', 'Brian', 'Dorothy', 'Sharon']
 
 cities = ["Karancspuszta", "Horcsoghalom", "Budapest", ]
+
 schools = [bp1, bp2, miskolc1]
+
 words = ['pseudoartistically', 'irresolvable', 'unexplicated', 'unsensitising', 'unshriven', 'reminisce', 'byzas',
          'pavillon', 'nielloed', 'photophobia', 'tautology', 'flout', 'bourbon', 'seton', 'diminished', 'passivism',
          'nerol', 'goosewing', 'vaunted','tellingly', 'sidrah', 'philipsburg', 'preshared', 'collier', 'excusable',
          'rosario', 'unpouched', 'roupily']
+
 # Creating lots of random mentors to work with
 mentors = []
 for x in range(21):
@@ -78,6 +81,7 @@ for x in range(21):
         email="codecoolrobot+" + "%s" + "@gmail.com" % (str(surname[:3] + first_name[:3]))
     )
     mentors.append(new_mentor)
+
 # Creating a lots of random applicants to work with
 applicants = []
 for y in range(2000):
