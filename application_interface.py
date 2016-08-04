@@ -34,14 +34,3 @@ Please choose an option!
             self.print_result(Applicant.find_interview(self.application_number))
         if option == '3':
             self.print_result(Applicant.find_questions(self.application_number))
-
-    @classmethod
-    def send_email(cls, person, message):
-        import smtplib
-
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
-        server.sendmail("codecoolrobot@gmail.com", person.email, message)
