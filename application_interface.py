@@ -1,6 +1,9 @@
 from models import *
 
+
+
 class ApplicationInterface():
+
 
     @staticmethod
     def choose_applicant():
@@ -10,14 +13,17 @@ class ApplicationInterface():
     def __init__(self, number):
 
         self.application_number = number
+        self.applicaton = Applicant.get(Applicant.application_number == number)
 
     def print_menu(self):
-        print('''Welcome to the applicaton system of CodeCool!
+        print('''
+Welcome to the applicaton system of CodeCool!
 Please choose an option!
 (1) Application details
 (2) Interview Details
-(3) My questions'''
-)
+(3) My questions
+(4) Find my mentors
+''')
 
     def option(self):
         option = input("")
@@ -35,13 +41,7 @@ Please choose an option!
         if option == '3':
             self.print_result(Applicant.find_questions(self.application_number))
 
-    @classmethod
-    def send_email(cls, person, message):
-        import smtplib
+            self.print_result(Applicant.find_questions(self.application_number))
+        if option == '4':
+            self.print_result(self.applicaton.get_mentors())
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
-        server.sendmail("codecoolrobot@gmail.com", person.email, message)
