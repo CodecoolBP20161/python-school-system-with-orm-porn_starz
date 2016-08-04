@@ -53,7 +53,7 @@ class Applicant(BaseModel):
             found = False
             while not found:
                 uniqe = []
-                for x in range(12):
+                for x in range(5):
                     letter = random.choice(list(string.ascii_lowercase))
                     uniqe.append(letter)
                 uniqe = "".join(uniqe)
@@ -65,7 +65,7 @@ class Applicant(BaseModel):
             instance.save()
 
     @classmethod
-    def filter(cls, filt, data):
+    def filter(cls, filt=None, data=None):
         all_data = []
         applicants = cls.select().where(filt == data)
         for app in applicants:
@@ -75,14 +75,15 @@ class Applicant(BaseModel):
     @classmethod
     def appoint_interview(cls, instances):
         for instance in instances:
-            mentor_to_meet = random.choice(Mentor.select().where(instance.school.name == Mentor.school))
+            slot = random.choice(InterviewSlot.select().join(SlotMentor).where(cls.school == SlotMentor.mentor.school))
+            mentor_to_meets = random.choice(Mentor.select().where(instance.school.name == Mentor.school))
             first_possible = InterviewSlot.select().where(
                 mentor_to_meet.mentor_id == InterviewSlot.mentor, InterviewSlot.applicant >> None
                 ).order_by(
                 InterviewSlot.time
                 )[0]
             instance.status = "In progress"
-            first_possible.applicant = instance
+            slot.applicant = instance
             instance.save()
             first_possible.save()
 
@@ -134,14 +135,47 @@ class Mentor(BaseModel):
     name = CharField()
     mentor_id = PrimaryKeyField()
     school = ForeignKeyField(School)
+    email = CharField()
 
 
 class InterviewSlot(BaseModel):
 
+    slot_id = PrimaryKeyField()
+    date = DateField()
+    time = TimeField()
+
+    # @classmethod
+    # def filter(cls, filt=None, data=None):
+    #     all_data = []
+    #     query = (
+    #         cls
+    #         .select(cls, Mentor, Applicant)
+    #         .join(Mentor)
+    #         .join(Applicant, JOIN.LEFT_OUTER, on=InterviewSlot.applicant == Applicant.basic_id)
+    #         .where(filt == data))
+    #     for all_info in query:
+    #         data = [str(all_info.mentor.name), str(all_info.mentor.school.name), str(all_info.time), str(all_info.hour)]
+    #         try:
+    #             data.append(str(all_info.applicant.name))
+    #         except:
+    #             data.append(None)
+    #         all_data.append(data)
+    #     return all_data
+
+
+class SlotMentor(BaseModel):
+
+    SM_id = PrimaryKeyField()
     mentor = ForeignKeyField(Mentor)
-    time = DateField()
-    hour = TimeField(default=datetime.time(10, 0))
-    applicant = ForeignKeyField(Applicant, null=True)
+    slot = ForeignKeyField(InterviewSlot)
+    applicant = ForeignKeyField(Applicant)
+
+
+class Interview(BaseModel):
+
+    int_id = PrimaryKeyField()
+    applicant = ForeignKeyField(Applicant)
+    slot = ForeignKeyField(InterviewSlot)
 
 
 class QuestionAnswer(BaseModel):
@@ -151,3 +185,4 @@ class QuestionAnswer(BaseModel):
     answer = CharField(default=None, null=True)
     status = CharField(default='New')
     mentor = ForeignKeyField(Mentor, null=True)
+    date = DateField()
