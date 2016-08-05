@@ -23,8 +23,9 @@ class BaseModel(Model):
 
 class School(BaseModel):
 
-    name = CharField(primary_key=True)
-
+    name = CharField()
+    school_id = PrimaryKeyField()
+    location = CharField()
 
 class City(BaseModel):
 
@@ -42,15 +43,6 @@ class Applicant(BaseModel):
     email = CharField()  # given
     school = ForeignKeyField(School, null=True)
 
-    def send_email(self, message):
-        import smtplib
-
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
-        server.sendmail("codecoolrobot@gmail.com", self.email, message)
 
     @classmethod
     def filter(cls, filt=None, data=None):
@@ -69,13 +61,18 @@ class Applicant(BaseModel):
 
     @classmethod
     def find_school(cls, instances):
+        count = 0
         for instance in instances:
             the_city = City.select().where(City.name == instance.city)[0]
             the_school = School.select().where(the_city.closest_school.name == School.name)[0]
-            instance.school = the_school.name
+            instance.school = the_school
             instance.save()
-            # message = messages.greetings % (instance.name, instance.application_number, instance.school.name)
-            # instance.send_email(message)
+
+            message = messages.greetings % (instance.name, instance.application_number,
+                                            the_school.name, the_school.location)
+            if count <= 10:
+                messages.send_email(instance.email, message)
+            count += 1
 
     @classmethod
     def generate_uniqe(cls, instances):

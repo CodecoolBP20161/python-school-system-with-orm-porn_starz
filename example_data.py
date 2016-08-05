@@ -3,15 +3,18 @@ from datetime import date, time
 
 
 bp1 = School.create(
-    name='BP1'
+    name='BP1',
+    location='Budapest'
 )
 
 bp2 = School.create(
-    name='BP2'
+    name='BP2',
+    location='Budapest'
 )
 
 miskolc1 = School.create(
-    name='Miskolc1'
+    name='Miskolc1',
+    location='Miskolc'
 )
 
 City.create(
