@@ -36,7 +36,7 @@ Please choose an option!
         Applicant.find_school(Applicant.find_missing_city())
 
         # appoints an interview for all the new applicants, changing their status, and filling an interview slot
-        Applicant.appoint_interview(Applicant.find_missing_interview())
+        # Applicant.appoint_interview(Applicant.find_missing_interview())
 
     @staticmethod
     def check_applicants():
@@ -89,6 +89,7 @@ Please choose an option!
                      (3) Applicant
                      (4) School
                      (5) Mentor name
+                     (6) Choose a question(ID)
                      (x) Exit''')
 
                 x = input('Choose an option: ')
@@ -100,9 +101,25 @@ Please choose an option!
                 if x == '1':
                     all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.status, y)
 
-                filtered_table_q = PrettyTable(["Question", "Answer", "Status"])
-                filtered_table_q.align["Name"] = "l"  # Left align city names
-                filtered_table_q.padding_width = 1    # One space between column edges and contents (default)
-                for que in all_data_about_q:
-                    filtered_table_q.add_row(que)
-                print(filtered_table_q)
+                elif x == '2':
+                    all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.date, y)
+
+                elif x == '3':
+                    all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.applicant, y)
+
+                elif x == '4':
+                    all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.mentor.school, y)
+
+                elif x == '5':
+                    all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.mentor.name, y)
+
+                elif x == '6':
+                    m_id = int(input("Which mentor(ID): "))
+                    QuestionAnswer.assign_mentor(y, m_id)
+                if x != "6":
+                    filtered_table_q = PrettyTable(["A.ID", "Applicant", "Q.ID", "Question", "Answer", "Status", "Date", "School", "Mentor"])
+                    filtered_table_q.align["Name"] = "l"  # Left align city names
+                    filtered_table_q.padding_width = 1    # One space between column edges and contents (default)
+                    for que in all_data_about_q:
+                        filtered_table_q.add_row(que)
+                    print(filtered_table_q)

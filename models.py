@@ -6,7 +6,7 @@ import messages
 
 from prettytable import PrettyTable
 
-db = PostgresqlDatabase('TothBalint', user='balint')
+db = PostgresqlDatabase('patrik', user='patrik')
 
 
 class BaseModel(Model):
@@ -67,8 +67,8 @@ class Applicant(BaseModel):
             the_school = School.select().where(the_city.closest_school.name == School.name)[0]
             instance.school = the_school.name
             instance.save()
-            message = messages.greetings % (instance.name, instance.application_number, instance.school.city)
-            instance.send_email(message)
+            # message = messages.greetings % (instance.name, instance.application_number, instance.school.city)
+            # instance.send_email(message)
 
 
     @classmethod
@@ -205,6 +205,7 @@ class Interview(BaseModel):
 
 class QuestionAnswer(BaseModel):
 
+    qa_id = PrimaryKeyField()
     applicant = ForeignKeyField(Applicant)
     question = CharField()
     answer = CharField(default=None, null=True)
@@ -217,5 +218,23 @@ class QuestionAnswer(BaseModel):
         all_data = []
         questions = cls.select().where(filt == data)
         for question in questions:
-            all_data.append([question.question, question.answer, question.status])
+            data = [question.applicant.basic_id, question.applicant.name, question.qa_id, question.question, question.answer, question.status, question.date]
+            try:
+                data.append(question.mentor.school.name)
+            except:
+                data.append(None)
+            try:
+                data.append(question.mentor.name)
+            except:
+                data.append(None)
+            all_data.append(data)
+
         return all_data
+
+    @classmethod
+    def assign_mentor(cls, q, m):
+
+        qa_obj = cls.select().where(cls.qa_id == q).get()
+        qa_obj.mentor = m
+        qa_obj.status = "In progress"
+        qa_obj.save()
