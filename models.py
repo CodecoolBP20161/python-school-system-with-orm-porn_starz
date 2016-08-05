@@ -3,17 +3,10 @@ import string
 import random
 import messages
 from os import system
-try:
-    from prettytable import PrettyTable
-except ImportError:
-    install = input("In order to Run the program, you need to install the Prettytable python module.Install it?(y/n)")
-    if install == 'y':
-        system('sudo pip install prettytable')
-    else:
-        print('The program will quit now.')
-        raise SystemExit
+from messages import dbname, username
 
-db = PostgresqlDatabase('csibi', user='csibi')
+
+db = PostgresqlDatabase(dbname, user=username)
 
 
 class BaseModel(Model):

@@ -1,5 +1,6 @@
 from models import *
 from datetime import date, time
+from config import toemail
 
 
 bp1 = School.create(
@@ -80,9 +81,9 @@ for x in range(21):
     first_name = random.choice(first_names)
     email = str(surname[:3] + first_name[:3])
     new_mentor = Mentor.create(
-        name=surname + " " + first_name,
+        name=surname + ' ' + first_name,
         school=school,
-        email="codecoolrobot+%s@gmail.com" % email
+        email=toemail + '%s@gmail.com' % email
     )
     mentors.append(new_mentor)
 
@@ -94,9 +95,9 @@ for y in range(2000):
     first_name = random.choice(first_names)
     email = str(surname[:3] + first_name[:3])
     applicant = Applicant.create(
-        name=surname + " " + first_name,
+        name=surname + ' ' + first_name,
         city=city,
-        email="codecoolrobot+%s@gmail.com" % email
+        email='codecoolrobot+%s@gmail.com' % email
         )
     applicants.append(applicant)
 
@@ -125,7 +126,7 @@ for mentor in mentors:
 # Creating random questions to work with
 for z in range(1000):
     question = [random.choice(words) for k in range(random.randint(3, 7))]
-    question = " ".join(question) + '?'
+    question = ' '.join(question) + '?'
     question = question[0].capitalize() + question[1:]
     QuestionAnswer.create(
         applicant=random.choice(applicants),

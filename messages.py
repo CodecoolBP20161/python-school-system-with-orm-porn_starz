@@ -1,4 +1,4 @@
-
+from config import *
 
 
 greetings = '''Dear %s!
@@ -32,9 +32,9 @@ CodecoolRobot!'''
 def send_email(address, message):
     import smtplib
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP(smtp, 587)
     server.ehlo()
     server.starttls()
     server.ehlo()
-    server.login('codecoolrobot@gmail.com', 'codecoolrobot1')
-    server.sendmail("codecoolrobot@gmail.com", address, message)
+    server.login(fromemail, password)
+    server.sendmail(fromemail, address, message)
