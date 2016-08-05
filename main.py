@@ -8,7 +8,7 @@ def main():
         from prettytable import PrettyTable
     except ImportError:
         install = input(
-            "In order to Run the program, you need to install the Prettytable python module.Install it?(y/n)")
+            "In order to Run the program, you need to install the 'Prettytable' python module.Install it?(y/n)")
         if install == 'y':
             system('sudo pip install prettytable')
         else:
