@@ -102,6 +102,7 @@ class Applicant(BaseModel):
     @classmethod
     def appoint_interview(cls, instances):
         try:
+            count = 0
             for instance in instances[:5]:
                 query = SlotMentor.select().join(Mentor).switch(SlotMentor).where(Mentor.school == instance.school.name, SlotMentor.applicant >> None)
                 the_list = []
@@ -130,6 +131,23 @@ class Applicant(BaseModel):
                 menslot2 = SlotMentor.get(SlotMentor.SM_id == mslot2)
                 menslot2.applicant = instance
                 menslot2.save()
+                if count <= 2:
+                    message_applicant = messages.information_for_applicant % (instance.name,
+                                                                              (islot.date + islot.time),
+                                                                              men1.name,
+                                                                              men2.name)
+                    messages.send_email(instance.email, message_applicant)
+                    message_mentor1 = messages.information_for_mentor % (men1.name,
+                                                                         (islot.date + islot.time),
+                                                                         instance.name)
+                    message_mentor2 = messages.information_for_mentor % (men1.name,
+                                                                         (islot.date + islot.time),
+                                                                         instance.name)
+                    messages.send_email(men1.email, message_mentor1)
+                    messages.send_email(men2.email, message_mentor2)
+                count += 1
+
+
         except:
             pass
 
