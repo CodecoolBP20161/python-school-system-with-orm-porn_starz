@@ -14,7 +14,7 @@ Mentors
 
 information_for_applicant = ''' Dear %s!
 
-You will have an interview at %s where your mentors will be %s!
+You will have an interview at %s, where your mentors will be %s, and %s!
 
 See you soon!
 
