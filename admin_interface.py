@@ -1,108 +1,104 @@
-from models import *
+from getpass import getpass
+from prettytable import PrettyTable
+from models import Applicant, InterviewSlot, Mentor, Interview
+import sys
+import datetime
 
 class AdminInterface():
 
     @staticmethod
-    def print_menu():
-        print('''Welcome to the admin system of CodeCool!
-Please choose an option!
-(1) Maintenance
-(2) Check applicants
-(3) Questions'''
-)
-    @staticmethod
-    def choose_an_option():
-        number_of_choose = input('Give me a number: ')
-        return number_of_choose
+    def log_in():
+        password = "bela"
+        pw = getpass("Password: ")
+        return password == pw
 
-    @staticmethod
-    def option(number):
+    def run(self):
+        self.on = True
+        while self.on:
+            option = self.choose()
+            if option is '1':
+                self.maintenance()
+            if option is '2':
+                self.list_them()
+            if option is '3':
+                self.list_interviews()
+            if option is 'x':
+                sys.exit()
 
-        if number == '1':
-            AdminInterface.maintenance()
-        if number == '2':
-            AdminInterface.check_applicants()
+    def choose(self):
+        print('Admin interface\n\n(1) Maintenance\n(2) Applicants\n(3) Interviews\n(x) Exit')
+        return input("Choose: ")
 
-        if number == '3':
-            AdminInterface.check_questions()
-
-    @staticmethod
-    def maintenance():
-
+    def maintenance(self):
+        print("Generating application numbers...")
         # adds uniqe applicaton codes to those who doesnt have
         Applicant.generate_uniqe(Applicant.find_missing_pk())
+        print("Application numbers are generated")
 
+        print("Searching for schools for applicants...")
         # finds the closest school based on the city where the applicant lives (for everyone)
         Applicant.find_school(Applicant.find_missing_city())
+        print("Search completed.")
 
+        print("Appointing interviews...")
         # appoints an interview for all the new applicants, changing their status, and filling an interview slot
         Applicant.appoint_interview(Applicant.find_missing_interview())
+        print("Done.")
 
-    @staticmethod
-    def check_applicants():
-
-        run = True
-        while run:
-            print('''Choose a filter:
-                     (1) name
-                     (2) Status
-                     (3) App. number
-                     (4) City
-                     (5) Email
-                     (6) School
-                     (x) Exit''')
-
-            x = input('Choose an option: ')
-            if x == 'x':
-                run = False
+    def list_them(self):
+        print('(0) All\n(1) Name\n(2) Status\n(3) App number\n(4) City\n(5) Email\n(6) School\n(x) Back')
+        try:
+            choose = int(input("Choose: "))
+            table = PrettyTable(['Name', 'Status', 'App number', 'City', 'Email', 'School'])
+            table.padding_width = 1
+            if choose is 0:
+                all_data = Applicant.filter()
             else:
-                y = input('Choose a filter: ')
-
-            if x == '1':
-                all_data = Applicant.filter(Applicant.name, y)
-            if x == '2':
-                all_data = Applicant.filter(Applicant.status, y)
-            if x == '3':
-                all_data = Applicant.filter(Applicant.application_number, y)
-            if x == '4':
-                all_data = Applicant.filter(Applicant.city, y)
-            if x == '5':
-                all_data = Applicant.filter(Applicant.email, y)
-            if x == '6':
-                all_data = Applicant.filter(Applicant.school, y)
-
-            filtered_table = PrettyTable(["Name", "Status", "App. number", "City", "Email", "School"])
-            filtered_table.align["Name"] = "l"  # Left align city names
-            filtered_table.padding_width = 1    # One space between column edges and contents (default)
+                write = input("Choose: ")
+                if choose is 1:
+                    all_data = Applicant.filter(Applicant.name, write)
+                if choose is 2:
+                    all_data = Applicant.filter(Applicant.status, write)
+                if choose is 3:
+                    all_data = Applicant.filter(Applicant.application_number, write)
+                if choose is 4:
+                    all_data = Applicant.filter(Applicant.city, write)
+                if choose is 5:
+                    all_data = Applicant.filter(Applicant.email, write)
+                if choose is 6:
+                    all_data = Applicant.filter(Applicant.school, write)
             for student in all_data:
-                filtered_table.add_row(student)
-            print(filtered_table)
+                table.add_row(student)
+            print(table)
+        except:
+            pass
 
-    @staticmethod
-    def check_questions():
-
-            run = True
-            while run:
-                print('''Choose a filter:
-                     (1) Status
-                     (2) Time
-                     (3) Applicant
-                     (4) School
-                     (5) Mentor name
-                     (x) Exit''')
-
-                x = input('Choose an option: ')
-                if x == 'x':
-                    run = False
-                else:
-                    y = input('Choose a filter: ')
-
-                if x == '1':
-                    all_data_about_q = QuestionAnswer.filter_question(QuestionAnswer.status, y)
-
-                filtered_table_q = PrettyTable(["Question", "Answer", "Status"])
-                filtered_table_q.align["Name"] = "l"  # Left align city names
-                filtered_table_q.padding_width = 1    # One space between column edges and contents (default)
-                for que in all_data_about_q:
-                    filtered_table_q.add_row(que)
-                print(filtered_table_q)
+    def list_interviews(self):
+        print('(0) All\n(1) Applicant\n(2) Time\n(3) Hour\n(4) Mentor\n(5) School\n(x) Back')
+        # try:
+        choose = int(input("Choose: "))
+        table = PrettyTable(['School', 'Date', 'Time', 'Applicant', 'M1', 'M2'])
+        table.padding_width = 1
+        if choose is 0:
+            all_data = Interview.get_interviews()
+        # else:
+        #     write = input("Choose: ")
+        #     if choose is 1:
+        #         all_data = InterviewSlot.filter(Applicant.name, write)
+        #     if choose is 2:
+        #         write = write.split("-")
+        #         y = int(write[0])
+        #         m = int(write[1])
+        #         d = int(write[2])
+        #         all_data = InterviewSlot.filter(InterviewSlot.time, datetime.date(y, m, d))
+        #     if choose is 3:
+        #         all_data = InterviewSlot.filter(InterviewSlot.hour, datetime.time(int(write)))
+        #     if choose is 4:
+        #         all_data = InterviewSlot.filter(Mentor.name, write)
+        #     if choose is 5:
+        #         all_data = InterviewSlot.filter(Mentor.school, write)
+        for student in all_data:
+            table.add_row(student)
+        print(table)
+        # except:
+        #     pass

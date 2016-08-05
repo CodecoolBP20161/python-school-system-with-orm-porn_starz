@@ -44,24 +44,24 @@ surnames = ['Smith', 'Anderson', 'Clark', 'Wright', 'Mitchell', 'Johnson', 'Thom
             'Williams', 'Jackson', 'Lewis', 'Hill', 'Roberts', 'Jones', 'White', 'Lee', 'Scott', 'Turner', 'Brown',
             'Harris', 'Walker', 'Green', 'Phillips', 'Davis', 'Martin', 'Hall', 'Adams', 'Campbell', 'Miller',
             'Thompson',  'Allen', 'Baker', 'Parker', 'Wilson', 'Garcia', 'Young', 'Gonzalez', 'Evans', 'Moore',
-            'Martinez', 'Hernandez', 'Nelson','Edwards', 'Taylor', 'Robinson', 'King', 'Carter', 'Collins']
+            'Martinez', 'Hernandez', 'Nelson', 'Edwards', 'Taylor', 'Robinson', 'King', 'Carter', 'Collins']
 
-first_names = ['James', 'Christopher', 'Ronald', 'Mary', 'Lisa', 'Michelle', 'John', 'Daniel', 'Anthony'
+first_names = ['James', 'Christopher', 'Ronald', 'Mary', 'Lisa', 'Michelle', 'John', 'Daniel', 'Anthony',
                'Patricia', 'Nancy', 'Laura',
                'Robert', 'Paul', 'Kevin', 'Linda', 'Karen', 'Sara', 'Michael',
-               'Mark', 'Jason', 'Barbara', 'Betty', 'Kimberly', 'William', 'Donald', 'Jeff', 'Elizabeth'
+               'Mark', 'Jason', 'Barbara', 'Betty', 'Kimberly', 'William', 'Donald', 'Jeff', 'Elizabeth',
                'Helen', 'Debora', 'David',
                'George', 'Jennifer', 'Sandra', 'Richard', 'Kenneth', 'Maria',
                'Donn', 'Charles', 'Steven', 'Susan', 'Caro', 'Josephine', 'Edward',
                'Margaret', 'Ruth', 'Thomas', 'Brian', 'Dorothy', 'Sharon']
 
-cities = ["Karancspuszta", "Horcsoghalom", "Budapest", ]
+cities = ["Karancspuszta", "Horcsoghalom", "Budapest", 'Vac', 'Szazhalombatta']
 
 schools = [bp1, bp2, miskolc1]
 
 words = ['pseudoartistically', 'irresolvable', 'unexplicated', 'unsensitising', 'unshriven', 'reminisce', 'byzas',
          'pavillon', 'nielloed', 'photophobia', 'tautology', 'flout', 'bourbon', 'seton', 'diminished', 'passivism',
-         'nerol', 'goosewing', 'vaunted','tellingly', 'sidrah', 'philipsburg', 'preshared', 'collier', 'excusable',
+         'nerol', 'goosewing', 'vaunted', 'tellingly', 'sidrah', 'philipsburg', 'preshared', 'collier', 'excusable',
          'rosario', 'unpouched', 'roupily']
 
 # Creating lots of random mentors to work with
@@ -127,5 +127,5 @@ for z in range(1000):
     QuestionAnswer.create(
         applicant=random.choice(applicants),
         question=question,
-        date= date(2016, random.randint(7, 8), random.randint(1, 29))
+        date=date(2016, random.randint(7, 8), random.randint(1, 29))
     )

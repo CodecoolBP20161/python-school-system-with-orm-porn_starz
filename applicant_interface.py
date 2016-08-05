@@ -2,7 +2,7 @@ from models import *
 
 
 
-class ApplicationInterface():
+class ApplicantInterface():
 
 
     @staticmethod
@@ -13,7 +13,7 @@ class ApplicationInterface():
     def __init__(self, number):
 
         self.application_number = number
-        self.applicaton = Applicant.get(Applicant.application_number == number)
+        self.applicant = Applicant.get(Applicant.application_number == number)
 
     def print_menu(self):
         print('''
@@ -40,8 +40,5 @@ Please choose an option!
             self.print_result(Applicant.find_interview(self.application_number))
         if option == '3':
             self.print_result(Applicant.find_questions(self.application_number))
-
-            self.print_result(Applicant.find_questions(self.application_number))
         if option == '4':
-            self.print_result(self.applicaton.get_mentors())
-
+            self.print_result(self.applicant.get_mentors())

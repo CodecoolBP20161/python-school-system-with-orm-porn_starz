@@ -1,6 +1,7 @@
 from admin_interface import AdminInterface
 
-# admin interface
 
-AdminInterface.print_menu()
-AdminInterface.option(AdminInterface.choose_an_option())
+logged_in_as_admin = AdminInterface.log_in()
+if logged_in_as_admin:
+    interface = AdminInterface()
+    interface.run()

@@ -1,5 +1,5 @@
 from models import *
-from application_interface import ApplicantInterface
+from applicant_interface import ApplicantInterface
 
 
 # user interface
