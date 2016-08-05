@@ -4,7 +4,7 @@ from models import Applicant, Interview
 import sys
 
 
-class AdminInterface():
+class AdminInterface:
 
     @staticmethod
     def log_in():
