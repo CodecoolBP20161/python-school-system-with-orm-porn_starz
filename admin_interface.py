@@ -57,15 +57,15 @@ class AdminInterface:
                 write = input("Choose: ")
                 if choose is 1:
                     all_data = Applicant.filter(Applicant.name, write)
-                if choose is 2:
+                elif choose is 2:
                     all_data = Applicant.filter(Applicant.status, write)
-                if choose is 3:
+                elif choose is 3:
                     all_data = Applicant.filter(Applicant.application_number, write)
-                if choose is 4:
+                elif choose is 4:
                     all_data = Applicant.filter(Applicant.city, write)
-                if choose is 5:
+                elif choose is 5:
                     all_data = Applicant.filter(Applicant.email, write)
-                if choose is 6:
+                elif choose is 6:
                     all_data = Applicant.filter(Applicant.school, write)
             for student in all_data:
                 table.add_row(student)

@@ -1,12 +1,19 @@
 from peewee import *
 import string
 import random
-import datetime
 import messages
+from os import system
+try:
+    from prettytable import PrettyTable
+except ImportError:
+    install = input("In order to Run the program, you need to install the Prettytable python module.Install it?(y/n)")
+    if install == 'y':
+        system('sudo pip install prettytable')
+    else:
+        print('The program will quit now.')
+        raise SystemExit
 
-from prettytable import PrettyTable
-
-db = PostgresqlDatabase('TothBalint', user='balint')
+db = PostgresqlDatabase('csibi', user='csibi')
 
 
 class BaseModel(Model):
