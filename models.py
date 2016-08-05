@@ -63,7 +63,7 @@ class Applicant(BaseModel):
 
             message = messages.greetings % (instance.name, instance.application_number,
                                             the_school.name, the_school.location)
-            if count <= 10:
+            if count <= 3:
                 messages.send_email(instance.email, message)
             count += 1
 
@@ -124,7 +124,7 @@ class Applicant(BaseModel):
                 menslot2 = SlotMentor.get(SlotMentor.SM_id == mslot2)
                 menslot2.applicant = instance
                 menslot2.save()
-                if count <= 2:
+                if count <= 3:
                     message_applicant = messages.information_for_applicant % (instance.name,
                                                                               (islot.date + islot.time),
                                                                               men1.name,
