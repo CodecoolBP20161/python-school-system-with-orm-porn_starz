@@ -4,11 +4,13 @@ from admin import admin_interface
 
 def main():
     choice = input('''
-    Please choose your role:
-    1.Admin
-    2.Applicant''')
+Please choose your role:
+1.Admin
+2.Applicant\n''')
 
     if choice == "1":
         admin_interface()
     elif choice == "2":
         user_interface()
+
+main()
