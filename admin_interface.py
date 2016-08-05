@@ -1,8 +1,8 @@
 from getpass import getpass
 from prettytable import PrettyTable
-from models import Applicant, InterviewSlot, Mentor, Interview
+from models import Applicant, Interview
 import sys
-import datetime
+
 
 class AdminInterface():
 
