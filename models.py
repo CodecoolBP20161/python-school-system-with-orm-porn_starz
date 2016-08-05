@@ -97,37 +97,37 @@ class Applicant(BaseModel):
 
     @classmethod
     def appoint_interview(cls, instances):
-        try:
-            for instance in instances[:5]:
-                query = SlotMentor.select().join(Mentor).switch(SlotMentor).where(Mentor.school == instance.school.name, SlotMentor.applicant >> None)
-                the_list = []
-                for obj in query:
-                    the_list.append([obj.SM_id, obj.slot, obj.mentor])
-                all_data = random.choice(the_list)
-                mslot1 = all_data[0]
-                islot = all_data[1]
-                men1 = all_data[2]
-                query2 = SlotMentor.select().join(Mentor).where(Mentor.school == instance.school.name, SlotMentor.slot == islot, SlotMentor.mentor != men1, SlotMentor.applicant >> None)
-                the_list2 = []
-                for obj in query2:
-                    the_list2.append([obj.SM_id, obj.slot, obj.mentor])
-                all_data2 = random.choice(the_list2)
-                men2 = all_data2[2]
-                mslot2 = all_data2[0]
-                Interview.create(
-                    applicant=instance,
-                    slot=InterviewSlot.get(InterviewSlot.slot_id == islot.slot_id)
-                    )
-                instance.status = "In progress"
-                instance.save()
-                menslot1 = SlotMentor.get(SlotMentor.SM_id == mslot1)
-                menslot1.applicant = instance
-                menslot1.save()
-                menslot2 = SlotMentor.get(SlotMentor.SM_id == mslot2)
-                menslot2.applicant = instance
-                menslot2.save()
-        except:
-            pass
+        # try:
+        for instance in instances[:10]:
+            query = SlotMentor.select().join(Mentor).switch(SlotMentor).where(Mentor.school == instance.school.name, SlotMentor.applicant >> None)
+            the_list = []
+            for obj in query:
+                the_list.append([obj.SM_id, obj.slot, obj.mentor])
+            all_data = random.choice(the_list)
+            mslot1 = all_data[0]
+            islot = all_data[1]
+            men1 = all_data[2]
+            query2 = SlotMentor.select().join(Mentor).where(Mentor.school == instance.school.name, SlotMentor.slot == islot, SlotMentor.mentor != men1, SlotMentor.applicant >> None)
+            the_list2 = []
+            for obj in query2:
+                the_list2.append([obj.SM_id, obj.slot, obj.mentor])
+            all_data2 = random.choice(the_list2)
+            men2 = all_data2[2]
+            mslot2 = all_data2[0]
+            Interview.create(
+                applicant=instance,
+                slot=InterviewSlot.get(InterviewSlot.slot_id == islot.slot_id)
+                )
+            instance.status = "In progress"
+            instance.save()
+            menslot1 = SlotMentor.get(SlotMentor.SM_id == mslot1)
+            menslot1.applicant = instance
+            menslot1.save()
+            menslot2 = SlotMentor.get(SlotMentor.SM_id == mslot2)
+            menslot2.applicant = instance
+            menslot2.save()
+        # except:
+        #     pass
 
     @classmethod
     def find_missing_pk(cls):
@@ -142,11 +142,16 @@ class Applicant(BaseModel):
         return cls.select().where(cls.status == 'New')
 
     @classmethod
-    def find_interview(cls, number):
-        app = cls.select().join(InterviewSlot).join(Mentor).where(cls.application_number == number).get()
-        slot = InterviewSlot.select().join(cls).where(cls.application_number == number).get()
-        men = Mentor.select().join(InterviewSlot, JOIN.RIGHT_OUTER).join(cls).where(cls.application_number == number).get()
-        return [app.school_id, slot.time, slot.hour, men.name]
+    # def find_interview(cls, number):
+    #     query = Interview.select().join(InterviewSlot).join(SlotMentor).join(Mentor).where(cls.application_number == number)
+    #     print(query)
+    #     data = []
+    #     for i in query:
+    #         print(i)
+    #         data.append(Mentor.name)
+    #     data.append(query.get().InterviewSlot.time)
+    #     data.append(query.get().InterviewSlot.date)
+    #     return data
 
     @classmethod
     def find_questions(cls, number):
@@ -208,7 +213,8 @@ class Interview(BaseModel):
                 all_info.applicant.school.name,
                 str(all_info.slot.date),
                 str(all_info.slot.time),
-                all_info.applicant.application_number]
+                all_info.applicant.name,
+                all_info.applicant.basic_id]
             app = all_info.applicant.basic_id
             obj = SlotMentor.select().join(Mentor).where(SlotMentor.applicant == app)
             for m in obj:

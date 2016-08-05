@@ -74,29 +74,30 @@ class AdminInterface():
             pass
 
     def list_interviews(self):
-        print('(0) All\n(1) Applicant\n(2) Time\n(3) Hour\n(4) Mentor\n(5) School\n(x) Back')
+        print('(0) All\n(1) Applicant\n(2) Date\n(3) Time\n(4) Mentor\n(5) School\n(x) Back')
         # try:
         choose = int(input("Choose: "))
-        table = PrettyTable(['School', 'Date', 'Time', 'Applicant', 'M1', 'M2'])
+        table = PrettyTable(['School', 'Date', 'Time', 'Applicant', 'A.ID', 'M1', 'M2'])
         table.padding_width = 1
         if choose is 0:
             all_data = Interview.get_interviews()
-        # else:
-        #     write = input("Choose: ")
-        #     if choose is 1:
-        #         all_data = InterviewSlot.filter(Applicant.name, write)
-        #     if choose is 2:
-        #         write = write.split("-")
-        #         y = int(write[0])
-        #         m = int(write[1])
-        #         d = int(write[2])
-        #         all_data = InterviewSlot.filter(InterviewSlot.time, datetime.date(y, m, d))
-        #     if choose is 3:
-        #         all_data = InterviewSlot.filter(InterviewSlot.hour, datetime.time(int(write)))
-        #     if choose is 4:
-        #         all_data = InterviewSlot.filter(Mentor.name, write)
-        #     if choose is 5:
-        #         all_data = InterviewSlot.filter(Mentor.school, write)
+        else:
+            write = input("Choose: ")
+            if choose is 1:
+                all_data = Interview.get_interviews(Interview.applicant, int(write))
+            if choose is 2:
+                write = write.split("-")
+                y = int(write[0])
+                m = int(write[1])
+                d = int(write[2])
+                all_data = Interview.get_interviews(InterviewSlot.date, datetime.date(y, m, d))
+            if choose is 3:
+                write = int(write)
+                all_data = Interview.get_interviews(InterviewSlot.time, datetime.time(write))
+            # if choose is 4:
+            #     all_data = InterviewSlot.filter(Mentor.name, write)
+            if choose is 5:
+                all_data = Interview.get_interviews(School.name, write)
         for student in all_data:
             table.add_row(student)
         print(table)
